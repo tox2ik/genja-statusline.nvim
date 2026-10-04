@@ -1,0 +1,76 @@
+*genja-statusline.txt*	A small personal statusline, tabline and winbar
+
+==============================================================================
+CONTENTS                                                    *genja-statusline*
+
+    Requirements .......................... |genja-statusline-requirements|
+    Setup ................................. |genja-statusline-setup|
+    Options ............................... |genja-statusline-options|
+    Highlight groups ...................... |genja-statusline-highlights|
+
+==============================================================================
+REQUIREMENTS                                   *genja-statusline-requirements*
+
+Neovim 0.9 or newer and a Nerd Font.
+
+Three helpers are not part of this plugin and have to exist before the first
+redraw: >lua
+
+    require('genja.fn').Join(list, sep)
+    Split(str, sep)                                          -- global
+    OsDependant(windows, linux, mac, bsd, posix, other)      -- global
+<
+==============================================================================
+SETUP                                                 *genja-statusline-setup*
+
+Nothing is changed until setup() is called: >lua
+
+    require('genja-statusline').setup({
+        statusline = true,
+        tabline = true,
+        winbar = true,
+        rune = false,
+        rename = {},
+    })
+<
+==============================================================================
+OPTIONS                                             *genja-statusline-options*
+
+statusline      (boolean, default true)
+                Set 'statusline'.
+
+tabline         (boolean, default true)
+                Set 'tabline'.
+
+winbar          (boolean, default true)
+                Set 'winbar'.
+
+rune            (boolean, default false)
+                Show the character code and byte offset under the cursor.
+                Can also be toggled at runtime:        *g:genja_statusline_rune*
+>vim
+                    :let g:genja_statusline_rune = v:true
+<
+rename          (list of functions, default {})
+                Each is called as fn(name, buf) and returns the label to use
+                for a tab whose current buffer is {buf}. They run in order,
+                after the built-in rule that shows oil.nvim buffers as
+                "o:<directory>".
+
+The pending command (%S) only shows up when 'showcmdloc' is "statusline".
+
+==============================================================================
+HIGHLIGHT GROUPS                                 *genja-statusline-highlights*
+
+StatusLineWeak  Dimmed parts and separators. Links to |hl-StatusLineNC| unless
+                already defined.
+
+WinBarPath      Winbar file name and flags, and the left edge of the tabline.
+                Links to |hl-WinBar| unless already defined.
+
+WinBarModified  Winbar modified flag. Links to |hl-WinBar| unless already
+                defined.
+
+The tabline also uses |hl-TabLine|, |hl-TabLineSel| and |hl-TabLineFill|.
+
+ vim:tw=78:ts=8:sw=4:et:ft=help:norl:
