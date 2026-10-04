@@ -1,0 +1,9 @@
+-- vim.g.genja_statusline_rune = false -- display percise information about the cursor position
+-- 
+-- Statusline = require 'genja.statusline'.Statusline
+-- Tabline = require 'genja.statusline'.Tabline
+-- Winbar = require 'genja.winbar'.Winbar
+-- 
+-- vim.o.statusline = '%{%v:lua.Statusline()%}'
+-- vim.o.tabline = '%{%v:lua.Tabline()%}'
+-- vim.o.winbar = "%{%v:lua.Winbar()%}"
