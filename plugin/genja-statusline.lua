@@ -3,6 +3,7 @@ if vim.g.loaded_genja_statusline then
 end
 vim.g.loaded_genja_statusline = true
 
+
 -- Fallbacks for the custom highlight groups. `default = true` means a
 -- colorscheme (or your own config) that defines them wins.
 local function highlights()
