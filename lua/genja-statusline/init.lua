@@ -1,5 +1,15 @@
 local M = {}
 
+---@alias genja-statusline.Rename fun(name: string, buf: integer): string
+
+---@class genja-statusline.Opts
+---@field statusline? boolean set 'statusline'
+---@field tabline? boolean set 'tabline'
+---@field winbar? boolean set 'winbar'
+---@field rune? boolean display precise information about the cursor position
+---@field rename? genja-statusline.Rename[] applied to tab labels
+
+---@type genja-statusline.Opts
 M.config = {
 	statusline = true, -- set 'statusline'
 	tabline = true, -- set 'tabline'
@@ -8,6 +18,7 @@ M.config = {
 	rename = {},    -- extra function(name, buf) -> name, applied to tab labels
 }
 
+---@param opts? genja-statusline.Opts
 function M.setup(opts)
 	M.config = vim.tbl_deep_extend('force', M.config, opts or {})
 
