@@ -9,7 +9,9 @@ A small personal statusline, tabline and winbar for Neovim.
   button doubles as a window count. Labels shrink the further they are from
   the current tab when the line gets too long.
 - **Winbar**: file name without extension, modified, read-only and quickfix
-  flags.
+  flags, then any `winbar_extra` parts (breadcrumbs and the like).
+- **Key path** (optional module): the json/yaml key path at the cursor, e.g.
+  `spec.containers[0].image`, from treesitter.
 
 ## Requirements
 
@@ -47,6 +49,7 @@ require('genja-statusline').setup({
 	winbar = true,     -- set 'winbar'
 	rune = false,      -- show character code and byte offset under the cursor
 	rename = {},       -- extra function(name, buf) -> name for tab labels
+	winbar_extra = {}, -- function(buf, win) -> statusline string, after the file name
 })
 ```
 
@@ -65,6 +68,21 @@ require('genja-statusline').setup({
 	},
 })
 ```
+
+`winbar_extra` parts run in order and are joined with a space. Return `''`
+to show nothing; a part that errors is skipped. They come after a `%<`, so a
+narrow window cuts them from the left. Example with the key path module:
+
+```lua
+require('genja-statusline').setup({
+	winbar_extra = {
+		function(buf, win) return require('genja-statusline.keypath').render(buf, win) end,
+	},
+})
+```
+
+Another plugin's bar can be embedded the same way, e.g. dropbar.nvim with its
+`bar.enable = false` and a part returning `_G.dropbar()`.
 
 The pending command (`%S`) only shows up with `vim.o.showcmdloc = 'statusline'`.
 

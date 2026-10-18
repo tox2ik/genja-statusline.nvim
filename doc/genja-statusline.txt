@@ -6,6 +6,7 @@ CONTENTS                                                    *genja-statusline*
     Requirements .......................... |genja-statusline-requirements|
     Setup ................................. |genja-statusline-setup|
     Options ............................... |genja-statusline-options|
+    Key path .............................. |genja-statusline-keypath|
     Highlight groups ...................... |genja-statusline-highlights|
 
 ==============================================================================
@@ -31,6 +32,7 @@ Nothing is changed until setup() is called: >lua
         winbar = true,
         rune = false,
         rename = {},
+        winbar_extra = {},
     })
 <
 ==============================================================================
@@ -57,7 +59,35 @@ rename          (list of functions, default {})
                 after the built-in rule that shows oil.nvim buffers as
                 "o:<directory>".
 
+winbar_extra    (list of functions, default {})
+                Each is called as fn(buf, win) while the winbar of {win} is
+                drawn and returns a statusline-format string, or '' for
+                nothing. Shown after the file name and flags, joined with a
+                space, after a "%<" so a narrow window cuts them from the
+                left. A function that errors is skipped.
+
 The pending command (%S) only shows up when 'showcmdloc' is "statusline".
+
+==============================================================================
+KEY PATH                                            *genja-statusline-keypath*
+
+Optional module for json, jsonc, json5, yaml and yaml.ansible buffers: the key
+path at the cursor, e.g. "spec.containers[0].image". It walks treesitter
+nodes from the cursor up to the root, so it needs the json or yaml parser and
+costs the same in small and big files. Not shown unless added: >lua
+
+    require('genja-statusline').setup({
+        winbar_extra = {
+            function(buf, win)
+                return require('genja-statusline.keypath').render(buf, win)
+            end,
+        },
+    })
+<
+keypath.supports({buf})        true for the filetypes above
+keypath.get({buf}, {win})      plain path, '' when there is none
+keypath.render({buf}, {win})   path in |WinBarPath|, cut from the left at 60
+                               characters, '%' escaped
 
 ==============================================================================
 HIGHLIGHT GROUPS                                 *genja-statusline-highlights*

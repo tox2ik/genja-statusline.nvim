@@ -1,6 +1,8 @@
 local M = {}
 
 ---@alias genja-statusline.Rename fun(name: string, buf: integer): string
+---Statusline-format string shown after the winbar's file name; '' for none.
+---@alias genja-statusline.WinbarPart fun(buf: integer, win: integer): string
 
 ---@class genja-statusline.Opts
 ---@field statusline? boolean set 'statusline'
@@ -8,6 +10,7 @@ local M = {}
 ---@field winbar? boolean set 'winbar'
 ---@field rune? boolean display precise information about the cursor position
 ---@field rename? genja-statusline.Rename[] applied to tab labels
+---@field winbar_extra? genja-statusline.WinbarPart[] parts after the winbar's file name (breadcrumbs etc.)
 
 ---@type genja-statusline.Opts
 M.config = {
@@ -16,6 +19,7 @@ M.config = {
 	winbar = true,  -- set 'winbar'
 	rune = false,   -- display precise information about the cursor position
 	rename = {},    -- extra function(name, buf) -> name, applied to tab labels
+	winbar_extra = {}, -- function(buf, win) -> statusline string, after the file name
 }
 
 ---@param opts? genja-statusline.Opts
