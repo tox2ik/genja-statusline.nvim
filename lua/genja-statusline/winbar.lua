@@ -35,11 +35,19 @@ function M.render()
 	if fname == '' then
 		fname = vim.bo[bufnr].filetype
 	end
+	-- %t already names a qf buffer ([Quickfix List]); add the command that built the list
+	local qf_title = ''
+	if vim.bo[bufnr].buftype == 'quickfix' then
+		local title = vim.w[win].quickfix_title
+		if type(title) == 'string' and title ~= '' then
+			qf_title = ' ' .. title:gsub('%%', '%%%%')
+		end
+	end
 	return (''
 		.. hl('WinBarPath', fname)
 		.. hl('WinBarModified', sl('%M')) -- modified flag
 		.. hl('WinBarPath', sl('%r')) -- read-only [RO]
-		.. hl('WinBarPath', sl('%q')) -- [quickfix list]
+		.. hl('WinBarPath', qf_title)
 		.. extras(bufnr, win)
 	)
 end

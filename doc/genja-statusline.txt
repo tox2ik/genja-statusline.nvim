@@ -45,7 +45,9 @@ tabline         (boolean, default true)
                 Set 'tabline'.
 
 winbar          (boolean, default true)
-                Set 'winbar'.
+                Set 'winbar': file name without extension, modified and
+                read-only flags. Quickfix and location-list windows add the
+                list title (|w:quickfix_title|).
 
 rune            (boolean, default false)
                 Show the character code and byte offset under the cursor.

@@ -8,8 +8,9 @@ A small personal statusline, tabline and winbar for Neovim.
 - **Tabline**: one label per tab, named after its current buffer. The close
   button doubles as a window count. Labels shrink the further they are from
   the current tab when the line gets too long.
-- **Winbar**: file name without extension, modified, read-only and quickfix
-  flags, then any `winbar_extra` parts (breadcrumbs and the like).
+- **Winbar**: file name without extension, modified and read-only flags, the
+  list title in quickfix and location-list windows, then any `winbar_extra`
+  parts (breadcrumbs and the like).
 - **Key path** (optional module): the json/yaml key path at the cursor, e.g.
   `spec.containers[0].image`, from treesitter.
 
