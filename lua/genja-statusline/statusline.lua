@@ -36,6 +36,35 @@ local function get_mode()
 	return mode_map[mode] or ('«' .. mode .. '»')
 end
 
+---Git branch from gitsigns (b:gitsigns_head), '' when none; clickable with `clicks.branch`.
+---@return string
+local function branch()
+	local head = vim.b.gitsigns_head
+	if type(head) ~= 'string' or head == '' then
+		return ''
+	end
+	return u.click('branch', hl('StatusLineWeak', ' ' .. head:gsub('%%', '%%%%')) .. Space)
+end
+
+---Error and warning counts of the buffer (`E2 W1`), '' when none; clickable with `clicks.diagnostics`.
+---@return string
+local function diagnostics()
+	local count = vim.diagnostic.count(0)
+	local parts = {}
+	local errors = count[vim.diagnostic.severity.ERROR] or 0
+	local warns = count[vim.diagnostic.severity.WARN] or 0
+	if errors > 0 then
+		table.insert(parts, hl('DiagnosticError', 'E' .. errors))
+	end
+	if warns > 0 then
+		table.insert(parts, hl('DiagnosticWarn', 'W' .. warns))
+	end
+	if #parts == 0 then
+		return ''
+	end
+	return u.click('diagnostics', table.concat(parts, ' ')) .. Space
+end
+
 function M.render()
 	local config = require('genja-statusline').config
 
@@ -64,9 +93,11 @@ function M.render()
 	return Join({
 		hl('StatusLineWeak', _mode .. Space .. DOTm .. sl('%n') .. DOTm .. Space), -- %n is bufnr
 
-		_file, _mod, _hwq, -- file/buffer name and flags
+		u.click('file', _file), _mod, _hwq, -- file/buffer name and flags
 		' %<',
 		'%=',
+		branch(),
+		diagnostics(),
 		'%a', -- argument list status
 		Space,
 		'%<',

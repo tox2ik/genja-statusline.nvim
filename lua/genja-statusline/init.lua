@@ -11,6 +11,18 @@ local M = {}
 ---@field rune? boolean display precise information about the cursor position
 ---@field rename? genja-statusline.Rename[] applied to tab labels
 ---@field winbar_extra? genja-statusline.WinbarPart[] parts after the winbar's file name (breadcrumbs etc.)
+---@field clicks? genja-statusline.Clicks statusline parts that react to the mouse
+
+---Called on a click: `button` is 'l', 'm' or 'r', `clicks` 1 for a single click.
+---@alias genja-statusline.ClickFn fun(button: string, clicks: integer)
+
+---@class genja-statusline.Clicks
+---@field file? genja-statusline.ClickFn the file name
+---@field branch? genja-statusline.ClickFn the git branch (shown from gitsigns' b:gitsigns_head)
+---@field diagnostics? genja-statusline.ClickFn the diagnostics count (shown when there are any)
+
+---Click ids in the %@...@ regions, in this order.
+M.CLICK_NAMES = { 'file', 'branch', 'diagnostics' }
 
 ---@type genja-statusline.Opts
 M.config = {
@@ -20,7 +32,23 @@ M.config = {
 	rune = false,   -- display precise information about the cursor position
 	rename = {},    -- extra function(name, buf) -> name, applied to tab labels
 	winbar_extra = {}, -- function(buf, win) -> statusline string, after the file name
+	clicks = {},    -- file / branch / diagnostics -> function(button, clicks)
 }
+
+---Run the click handler with id `id` (index into CLICK_NAMES); from autoload/genja_statusline.vim.
+---@param id integer
+---@param clicks integer
+---@param button string
+function M.click(id, clicks, button)
+	local name = M.CLICK_NAMES[id]
+	if not name then
+		return
+	end
+	local fn = M.config.clicks[name]
+	if fn then
+		fn(button, clicks)
+	end
+end
 
 ---@param opts? genja-statusline.Opts
 function M.setup(opts)

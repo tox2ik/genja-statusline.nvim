@@ -24,4 +24,5 @@ code or history: confirm or delete. `Hint:` is a working note for Claude.
 - It still needs three helpers from the config: `require('genja.fn').Join`, global `Split`, global `OsDependant` (README). Removing that tie is open. (inferred)
 - Breadcrumbs from other plugins are embedded through `winbar_extra`; genja owns 'winbar'. The config passes dropbar.nvim's `_G.dropbar()` this way. (idea 13)
 - Hint: `setup()` options are passed by the spec; an earlier bug was opts never reaching `setup()`.
+- Statusline click regions through `clicks` (file -> oil, branch -> Neogit, E/W counts -> loclist in the config's spec); the handlers live in the config, the plugin only routes `genja_statusline#click`. Branch and E/W counts were added for this. (idea 30/31)
 - Tabline areas outside the labels get a no-op click handler: nvim's "click without label = next tab" made nvim-qt window resizes (frameless, `ginit.vim`) walk to the last tab. Vimscript autoload, not a Lua global. (idea 32)

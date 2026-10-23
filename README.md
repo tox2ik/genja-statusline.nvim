@@ -51,7 +51,21 @@ require('genja-statusline').setup({
 	rune = false,      -- show character code and byte offset under the cursor
 	rename = {},       -- extra function(name, buf) -> name for tab labels
 	winbar_extra = {}, -- function(buf, win) -> statusline string, after the file name
+	clicks = {},       -- file / branch / diagnostics = function(button, clicks)
 })
+```
+
+The statusline shows the git branch (gitsigns' `b:gitsigns_head`) and the
+buffer's error/warning counts (`E2 W1`) when there are any. With `clicks`,
+the file name, the branch and the counts become click regions; `button` is
+`'l'`, `'m'` or `'r'`:
+
+```lua
+clicks = {
+	file = function(button) if button == 'l' then vim.cmd('Oil %:p:h') end end,
+	branch = function(button) if button == 'l' then vim.cmd('Neogit') end end,
+	diagnostics = function(button) if button == 'l' then vim.diagnostic.setloclist() end end,
+},
 ```
 
 `rune` can also be toggled at runtime with `vim.g.genja_statusline_rune`.

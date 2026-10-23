@@ -69,6 +69,14 @@ winbar_extra    (list of functions, default {})
                 space, after a "%<" so a narrow window cuts them from the
                 left. A function that errors is skipped.
 
+clicks          (table, default {})
+                Keys `file`, `branch`, `diagnostics`; each a function
+                fn(button, clicks) called on a click on that statusline part
+                ({button} 'l', 'm' or 'r', {clicks} 1 for a single click).
+                Parts without a function are not clickable. The branch comes
+                from b:gitsigns_head, the counts (E/W) from
+                vim.diagnostic.count(); both are hidden when empty.
+
 The pending command (%S) only shows up when 'showcmdloc' is "statusline".
 
 ==============================================================================
