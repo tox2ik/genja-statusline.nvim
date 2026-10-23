@@ -42,7 +42,8 @@ statusline      (boolean, default true)
                 Set 'statusline'.
 
 tabline         (boolean, default true)
-                Set 'tabline'.
+                Set 'tabline'. Clicks outside the labels do nothing
+                (`genja_statusline#noop`), instead of nvim's "next tab".
 
 winbar          (boolean, default true)
                 Set 'winbar': file name without extension, modified and

@@ -85,8 +85,12 @@ local function separator(tabpage, charsleft)
 end
 
 -- returns the tabline items and a rough count of the width they take
+-- clicks outside the labels go here and do nothing (autoload/genja_statusline.vim);
+-- without it nvim goes to the next tab, so nvim-qt resize drags walked the tabs
+local Noclick = '%@genja_statusline#noop@'
+
 local function tablabels(charsleft)
-	local tl = { hl('WinBarPath', Triangle_upper), '' }
+	local tl = { Noclick, hl('WinBarPath', Triangle_upper), '' }
 	local total = 2 -- triangle, close button
 	for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
 		local tabnum = vim.api.nvim_tabpage_get_number(tabpage)
@@ -101,7 +105,7 @@ local function tablabels(charsleft)
 	end
 	table.insert(tl, '%<')
 	table.insert(tl, '%<')
-	table.insert(tl, '%#TabLineFill#%T')
+	table.insert(tl, '%#TabLineFill#' .. Noclick)
 	table.insert(tl, '%=%#TabLine#%999X' .. Close)
 	return tl, total
 end

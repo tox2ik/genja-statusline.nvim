@@ -97,6 +97,11 @@ The pending command (`%S`) only shows up with `vim.o.showcmdloc = 'statusline'`.
 
 The tabline also uses the standard `TabLine`, `TabLineSel` and `TabLineFill`.
 
+Clicks on the tabline outside the labels (left edge, empty fill) do nothing:
+they go to `genja_statusline#noop` (`autoload/genja_statusline.vim`). Nvim
+would switch to the next tab there, and open a new one on a double click; a
+frameless nvim-qt sends resize drags on its top edge as such clicks.
+
 ## License
 
 MIT
