@@ -12,6 +12,17 @@ function M.sl(a, b)
 	return vim.api.nvim_eval_statusline(a, b or {}).str
 end
 
+-- label for a normal buffer without a name, instead of nvim's [No Name]
+M.NAMELESS = '[Nameless]'
+
+---True for a buffer nvim shows as [No Name]: no name and a normal buftype
+---(nofile, quickfix, help... have their own labels).
+---@param buf integer
+---@return boolean
+function M.is_nameless(buf)
+	return vim.api.nvim_buf_get_name(buf) == '' and vim.bo[buf].buftype == ''
+end
+
 -- make s clickable when a handler for `name` is configured (see init.lua `clicks`)
 ---@param name string 'file', 'branch' or 'diagnostics'
 ---@param s string

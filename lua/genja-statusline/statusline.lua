@@ -84,6 +84,9 @@ function M.render()
 
 	local _showcmd = sl('%S')
 	local _file = sl('%.50f'):gsub('[~\\/]', '/')
+	if u.is_nameless(vim.api.nvim_get_current_buf()) then
+		_file = u.NAMELESS
+	end
 	_file = vim.fn.fnamemodify(_file, ':r') -- no extension
 	_file = Join(Split(_file, '/'), hl('StatusLineWeak', Dirseparator))
 

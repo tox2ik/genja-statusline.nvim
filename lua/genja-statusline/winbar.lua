@@ -35,6 +35,9 @@ function M.render()
 	if fname == '' then
 		fname = vim.bo[bufnr].filetype
 	end
+	if u.is_nameless(bufnr) then
+		fname = u.NAMELESS
+	end
 	-- %t already names a qf buffer ([Quickfix List]); add the command that built the list
 	local qf_title = ''
 	if vim.bo[bufnr].buftype == 'quickfix' then
