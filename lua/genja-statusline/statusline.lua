@@ -19,7 +19,13 @@ local DOTm, Space = u.DOTm, u.Space
 
 local M = {}
 
-local Dirseparator = '󰞱'
+local Dirseparator = '·'
+if vim.fn.has('gui_running') == 1 then
+    local Dirseparator = '󰞱'
+end
+-- ·
+-- ∘
+-- ·
 
 local function get_os_icon()
 	return OsDependant('󰖳', '', '', 'bsd', 'posix', 'other')

@@ -5,14 +5,22 @@ local Space, Empty = u.Space, u.Empty
 
 local M = {}
 
-local Tabsep = ''
 local Triangle_upper = ' ' -- left edge; ' ' is the Nerd Font triangle
-local Close = '󱀬'
+local Close = 'x'
 local Ellipsis = '…'
+local Tabsep = '∘'
+
+if vim.fn.has('gui_running') == 1 then
+    Tabsep = ''
+    Close = '󱀬'
+end
+
 
 local wincount_label = {
-	[1] = '⋅', [2] = '²', [3] = '³', [4] = '⁴', [5] = '⁵',
-	[6] = '⁶', [7] = '⁷', [8] = '⁸', [9] = '⁹', [10] = '¹⁰',
+    -- [1] = '⋅',
+    [1] = '',
+    [2] = '²', [3] = '³', [4] = '⁴', [5] = '⁵',
+    [6] = '⁶', [7] = '⁷', [8] = '⁸', [9] = '⁹', [10] = '¹⁰',
 }
 
 -- the close button doubles as a window count for the tab
