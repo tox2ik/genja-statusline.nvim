@@ -21,7 +21,7 @@ code or history: confirm or delete. `Hint:` is a working note for Claude.
 
 - Split out of the config as its own plugin; next steps are its own GitHub repo, then removing it from the home-nvim repo (`todo-2026-neovim011.txt`).
 - The config uses `laststatus = 3` (one global statusline).
-- It still needs three helpers from the config: `require('genja.fn').Join`, global `Split`, global `OsDependant` (README). Removing that tie is open. (inferred)
+- Standalone: no helpers from the config (`Join`, `Split`, `OsDependant` were replaced in the 2026-w44 cleanup).
 - Breadcrumbs from other plugins are embedded through `winbar_extra`; genja owns 'winbar'. The config passes dropbar.nvim's `_G.dropbar()` this way. (idea 13)
 - Hint: `setup()` options are passed by the spec; an earlier bug was opts never reaching `setup()`.
 - Statusline click regions through `clicks` (file -> oil, branch -> Neogit, E/W counts -> loclist in the config's spec); the handlers live in the config, the plugin only routes `genja_statusline#click`. Branch and E/W counts were added for this. (idea 30/31)

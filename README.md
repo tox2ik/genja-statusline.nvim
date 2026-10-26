@@ -17,12 +17,7 @@ A small personal statusline, tabline and winbar for Neovim.
 ## Requirements
 
 - Neovim 0.9 or newer
-- A [Nerd Font](https://www.nerdfonts.com/) for the icons
-- Three helpers that are not part of this plugin (yet) and have to exist
-  before the first redraw:
-  - `require('genja.fn').Join(list, sep)`
-  - a global `Split(str, sep)`
-  - a global `OsDependant(windows, linux, mac, bsd, posix, other)`
+- A [Nerd Font](https://www.nerdfonts.com/) for the icons in a GUI; terminals get plain separators
 
 ## Install
 

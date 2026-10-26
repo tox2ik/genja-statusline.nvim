@@ -13,23 +13,28 @@
 
 local u = require('genja-statusline.util')
 local sl, hl = u.sl, u.hl
-local Join = require('genja.fn').Join
--- Split and OsDependant are expected to exist as globals
 local DOTm, Space = u.DOTm, u.Space
 
 local M = {}
 
-local Dirseparator = '·'
-if vim.fn.has('gui_running') == 1 then
-    local Dirseparator = '󰞱'
-end
--- ·
--- ∘
--- ·
+-- plain in terminals, a Nerd Font glyph in the GUI; other picks: ∘ ·
+local Dirseparator = (vim.fn.has('gui_running') == 1 and '󰞱' or '·')
 
-local function get_os_icon()
-	return OsDependant('󰖳', '', '', 'bsd', 'posix', 'other')
+local function os_icon()
+	if vim.fn.has('mac') == 1 then
+		return ''
+	elseif vim.fn.has('win32') == 1 then
+		return '󰖳'
+	elseif vim.fn.has('linux') == 1 then
+		return ''
+	elseif vim.fn.has('bsd') == 1 then
+		return 'bsd'
+	elseif vim.fn.has('unix') == 1 then
+		return 'posix'
+	end
+	return 'other'
 end
+local OS_ICON = os_icon()
 
 local mode_map = {
 	n = 'norm', i = 'ins',
@@ -57,14 +62,14 @@ end
 local function diagnostics()
 	local count = vim.diagnostic.count(0)
 	local parts = {}
-	local errors = count[vim.diagnostic.severity.ERROR] or 0
-	local warns = count[vim.diagnostic.severity.WARN] or 0
-	if errors > 0 then
-		table.insert(parts, hl('DiagnosticError', 'E' .. errors))
+	local function add(severity, group, letter)
+		local n = count[severity] or 0
+		if n > 0 then
+			table.insert(parts, hl(group, letter .. n))
+		end
 	end
-	if warns > 0 then
-		table.insert(parts, hl('DiagnosticWarn', 'W' .. warns))
-	end
+	add(vim.diagnostic.severity.ERROR, 'DiagnosticError', 'E')
+	add(vim.diagnostic.severity.WARN, 'DiagnosticWarn', 'W')
 	if #parts == 0 then
 		return ''
 	end
@@ -94,12 +99,12 @@ function M.render()
 		_file = u.NAMELESS
 	end
 	_file = vim.fn.fnamemodify(_file, ':r') -- no extension
-	_file = Join(Split(_file, '/'), hl('StatusLineWeak', Dirseparator))
+	_file = table.concat(vim.split(_file, '/+', { trimempty = true }), hl('StatusLineWeak', Dirseparator))
 
-	local _ft_fmt_enc = Join({ vim.bo.filetype, vim.bo.fileformat, vim.bo.fileencoding }, ' ')
+	local _ft_fmt_enc = table.concat({ vim.bo.filetype, vim.bo.fileformat, vim.bo.fileencoding }, ' ')
 	local _mode = string.format('%7s', get_mode())
 
-	return Join({
+	return table.concat({
 		hl('StatusLineWeak', _mode .. Space .. DOTm .. sl('%n') .. DOTm .. Space), -- %n is bufnr
 
 		u.click('file', _file), _mod, _hwq, -- file/buffer name and flags
@@ -115,7 +120,7 @@ function M.render()
 		_ro,
 		hl('StatusLineWeak', Space .. DOTm .. Space),
 
-		get_os_icon(),
+		OS_ICON,
 		_showcmd,
 
 		_rune,
