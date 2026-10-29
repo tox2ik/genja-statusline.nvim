@@ -19,7 +19,7 @@ code or history: confirm or delete. `Hint:` is a working note for Claude.
 
 ## Decisions
 
-- Split out of the config as its own plugin; next steps are its own GitHub repo, then removing it from the home-nvim repo (`todo-2026-neovim011.txt`).
+- Split out of the config as its own plugin; next steps are its own GitHub repo, then removing it from the home-nvim repo (`todo-2026-neovim011.md`).
 - The config uses `laststatus = 3` (one global statusline).
 - Standalone: no helpers from the config (`Join`, `Split`, `OsDependant` were replaced in the 2026-w44 cleanup).
 - Breadcrumbs from other plugins are embedded through `winbar_extra`; genja owns 'winbar'. The config passes dropbar.nvim's `_G.dropbar()` this way. (idea 13)
