@@ -24,13 +24,13 @@ A small personal statusline, tabline and winbar for Neovim.
 [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
-{ 'USERNAME/genja-statusline.nvim', opts = {} }
+{ 'tox2ik/genja-statusline.nvim', opts = {} }
 ```
 
 Built-in `vim.pack` (Neovim 0.12+):
 
 ```lua
-vim.pack.add({ 'https://github.com/USERNAME/genja-statusline.nvim' })
+vim.pack.add({ 'https://github.com/tox2ik/genja-statusline.nvim' })
 require('genja-statusline').setup()
 ```
 
