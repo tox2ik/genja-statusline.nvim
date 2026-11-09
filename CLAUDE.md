@@ -10,7 +10,7 @@ code or history: confirm or delete. `Hint:` is a working note for Claude.
 
 ## Layout
 
-- `lua/genja-statusline/init.lua`: `setup(opts)` with `statusline`, `tabline`, `winbar`, `rune`, `rename`, `winbar_extra`.
+- `lua/genja-statusline/init.lua`: `setup(opts)` with `statusline`, `tabline`, `winbar`, `rune`, `rename`, `winbar_extra`, `statusline_extra`.
 - `statusline.lua`, `tabline.lua`, `winbar.lua`, `util.lua`: one part each.
 - `keypath.lua`: json/yaml key path at the cursor (treesitter); not wired up by default.
 - `plugin/genja-statusline.lua`: runtime glue.

@@ -76,6 +76,21 @@ local function diagnostics()
 	return u.click('diagnostics', table.concat(parts, ' ')) .. Space
 end
 
+---Strings from `statusline_extra`, joined with a space, each followed by one.
+---A failing part is skipped: an error here would repeat on every redraw.
+---@param buf integer
+---@return string
+local function extras(buf)
+	local out = ''
+	for _, part in ipairs(require('genja-statusline').config.statusline_extra or {}) do
+		local ok, str = pcall(part, buf)
+		if ok and type(str) == 'string' and str ~= '' then
+			out = out .. str .. Space
+		end
+	end
+	return out
+end
+
 function M.render()
 	local config = require('genja-statusline').config
 
@@ -110,6 +125,7 @@ function M.render()
 		u.click('file', _file), _mod, _hwq, -- file/buffer name and flags
 		' %<',
 		'%=',
+		extras(vim.api.nvim_get_current_buf()),
 		branch(),
 		diagnostics(),
 		'%a', -- argument list status

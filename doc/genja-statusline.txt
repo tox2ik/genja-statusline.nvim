@@ -33,6 +33,7 @@ Nothing is changed until setup() is called: >lua
         rune = false,
         rename = {},
         winbar_extra = {},
+        statusline_extra = {},
     })
 <
 ==============================================================================
@@ -68,6 +69,13 @@ winbar_extra    (list of functions, default {})
                 nothing. Shown after the file name and flags, joined with a
                 space, after a "%<" so a narrow window cuts them from the
                 left. A function that errors is skipped.
+
+statusline_extra (list of functions, default {})
+                Each is called as fn(buf) while the statusline is drawn, {buf}
+                the current buffer, and returns a statusline-format string, or
+                '' for nothing. Shown at the start of the right half, before
+                the git branch, each followed by a space. A function that
+                errors is skipped.
 
 clicks          (table, default {})
                 Keys `file`, `branch`, `diagnostics`; each a function

@@ -46,6 +46,7 @@ require('genja-statusline').setup({
 	rune = false,      -- show character code and byte offset under the cursor
 	rename = {},       -- extra function(name, buf) -> name for tab labels
 	winbar_extra = {}, -- function(buf, win) -> statusline string, after the file name
+	statusline_extra = {}, -- function(buf) -> statusline string, right half, before the branch
 	clicks = {},       -- file / branch / diagnostics = function(button, clicks)
 })
 ```
@@ -78,6 +79,9 @@ require('genja-statusline').setup({
 	},
 })
 ```
+
+`statusline_extra` parts work the same way for the statusline: they start its right half, before the
+git branch (a running-task count, a busy mark).
 
 `winbar_extra` parts run in order and are joined with a space. Return `''`
 to show nothing; a part that errors is skipped. They come after a `%<`, so a

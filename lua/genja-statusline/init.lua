@@ -3,6 +3,8 @@ local M = {}
 ---@alias genja-statusline.Rename fun(name: string, buf: integer): string
 ---Statusline-format string shown after the winbar's file name; '' for none.
 ---@alias genja-statusline.WinbarPart fun(buf: integer, win: integer): string
+---Statusline-format string shown on the right half of the statusline; '' for none.
+---@alias genja-statusline.StatuslinePart fun(buf: integer): string
 
 ---@class genja-statusline.Opts
 ---@field statusline? boolean set 'statusline'
@@ -11,6 +13,7 @@ local M = {}
 ---@field rune? boolean display precise information about the cursor position
 ---@field rename? genja-statusline.Rename[] applied to tab labels
 ---@field winbar_extra? genja-statusline.WinbarPart[] parts after the winbar's file name (breadcrumbs etc.)
+---@field statusline_extra? genja-statusline.StatuslinePart[] parts at the start of the statusline's right half (task counts etc.)
 ---@field clicks? genja-statusline.Clicks statusline parts that react to the mouse
 
 ---Called on a click: `button` is 'l', 'm' or 'r', `clicks` 1 for a single click.
@@ -32,6 +35,7 @@ M.config = {
 	rune = false,   -- display precise information about the cursor position
 	rename = {},    -- extra function(name, buf) -> name, applied to tab labels
 	winbar_extra = {}, -- function(buf, win) -> statusline string, after the file name
+	statusline_extra = {}, -- function(buf) -> statusline string, right half, before the branch
 	clicks = {},    -- file / branch / diagnostics -> function(button, clicks)
 }
 
