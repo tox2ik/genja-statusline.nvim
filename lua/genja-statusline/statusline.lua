@@ -98,9 +98,11 @@ function M.render()
 	if _mod == '-' then _mod = ' ' end
 
 	local _hwq, _ro = sl('%h%w%q '), sl('%R')
-	-- NOTE: _hwq is never nil, so this always clears the read-only flag.
-	-- Kept as it was in the original config.
-	if _hwq then _ro = '' end
+	-- [RO] only where it says something: help, preview and quickfix windows are read-only anyway.
+	-- _hwq is at least ' ', so test what is in it (2026-11-10: the old `if _hwq` never showed [RO]).
+	if vim.trim(_hwq) ~= '' then
+		_ro = ''
+	end
 
 	local _rune, _pos = '', ''
 	if config.rune or vim.g.genja_statusline_rune then
