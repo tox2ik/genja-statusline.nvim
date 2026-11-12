@@ -9,7 +9,9 @@ A small personal statusline, tabline and winbar for Neovim.
   button doubles as a window count. Labels shrink the further they are from
   the current tab when the line gets too long.
 - **Winbar**: file name without extension, modified and read-only flags, the
-  list title in quickfix and location-list windows, then any `winbar_extra`
+  list title in quickfix and location-list windows, plain names for plugin
+  windows (aerial "Outline: file", undotree, neotest, overseer, dap-ui,
+  dap-view), then any `winbar_extra`
   parts (breadcrumbs and the like).
 - **Key path** (optional module): the json/yaml key path at the cursor, e.g.
   `spec.containers[0].image`, from treesitter.

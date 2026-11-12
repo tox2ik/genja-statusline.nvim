@@ -7,6 +7,39 @@ local sl, hl = u.sl, u.hl
 
 local M = {}
 
+---Winbar names for plugin windows, by filetype; nvim shows them as [Scratch]
+---or the plugin's internal buffer name (undotree_2, DAP Scopes) otherwise.
+local FT_LABELS = {
+	aerial = 'Outline',
+	undotree = 'Undo tree',
+	['neotest-summary'] = 'Tests',
+	['neotest-output-panel'] = 'Test output',
+	OverseerList = 'Tasks',
+	['dap-view'] = 'Debug',
+	['dap-repl'] = 'REPL',
+	dapui_scopes = 'Scopes',
+	dapui_stacks = 'Stacks',
+	dapui_watches = 'Watches',
+	dapui_breakpoints = 'Breakpoints',
+	dapui_console = 'Console',
+}
+
+---Name of the file an aerial window outlines, without extension; '' when
+---unknown. aerial keeps the source buffer in b:source_buffer.
+---@param buf integer
+---@return string
+local function aerial_source(buf)
+	local src = vim.b[buf].source_buffer
+	if type(src) ~= 'number' or not vim.api.nvim_buf_is_valid(src) then
+		return ''
+	end
+	local name = vim.api.nvim_buf_get_name(src)
+	if name == '' then
+		return ''
+	end
+	return vim.fn.fnamemodify(name, ':t:r')
+end
+
 ---Strings from `winbar_extra`, after the file name. `%<` lets nvim cut them
 ---from the left when the window is too narrow, so the innermost part stays.
 ---A failing part is skipped: an error here would repeat on every redraw.
@@ -105,6 +138,17 @@ function M.render()
 	end
 	if u.is_nameless(bufnr) then
 		fname = u.NAMELESS
+	end
+	local ft = vim.bo[bufnr].filetype
+	local label = FT_LABELS[ft]
+	if label ~= nil then
+		fname = label
+	end
+	if ft == 'aerial' then
+		local src = aerial_source(bufnr)
+		if src ~= '' then
+			fname = label .. ': ' .. src
+		end
 	end
 	-- %t already names a qf buffer ([Quickfix List]); add the command that built the list
 	local qf_title = ''
